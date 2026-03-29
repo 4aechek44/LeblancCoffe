@@ -15,7 +15,7 @@
             margin-top: 24px;
             color: #c9924a;
         }
-        p {
+        .about-text {
             font-family: 'Cormorant Garamond', serif;
             font-size: 18px;
             text-align: center;
@@ -152,6 +152,57 @@
             height: auto;  
             object-fit: cover; 
         }
+        .windows p {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 18px;
+            text-align: center;
+            margin-top: 24px;
+            color: #c9924a;
+        }
+        .menu-window a, .about-window a, .reg-window a, .login-window a {
+            font-size: 40px;
+            text-decoration: none;
+            color: #c9924a;
+            border: 1px solid #c9924a;
+            padding: 8px 16px;
+            border-radius: 4px;
+            transition: background 0.3s, color 0.3s;
+            padding: 80px 40px;
+        }
+        .menu-window{
+            position: absolute;
+            top: 880px;
+            left: 765px;
+        }
+        .about-window{
+            position: absolute;
+            top: 1100px;
+            left: 790px;
+        }
+        .about-window-a{
+            position: relative;
+            top: 80px;
+            left: 140px;
+        }
+        .reg-window{
+            position: absolute;
+            top: 800px;
+            left: 1000px;
+            padding: 80px 40px;
+        }
+        .login-window{
+            position: absolute;
+            top: 1000px;
+            left: 965px;
+            padding: 100px 100px;
+        }
+        .windows img {
+            width: 450px;
+            height: auto;
+            position: absolute;
+            top: 790px;
+            left: 240px;
+        }
     </style>
 </head>
 <body>
@@ -159,7 +210,7 @@
     <script src="navbar.js"></script>
 
     <h1>Welcome to Leblanc</h1>
-    <p>Enjoy our delicious coffee and desserts!</p>
+    <p class="about-text">Enjoy our delicious coffee and desserts!</p>
 
     <div class="carousel">
         <div class="carousel-track" id="track">
@@ -199,13 +250,23 @@
         
         <!-- Кружки для фона -->
     <div class="coffe">
-        <img src="images/coffe1.jpg" alt="coffe1" style="position: absolute; top: 300px; left: 45px;"> 
+        <img src="images/coffe1.jpg" alt="coffe1" style="position: absolute; left: 45px; top: 300px;"> 
         <img src="images/coffe2.jpg" alt="coffe2" style="position: absolute; top: 150px; left: 1375px;">
         <img src="images/coffe3.jpg" alt="coffe3" style="position: absolute; top: 500px; left: 1385px;">
-        <img src="images/coffe4.jpg" alt="coffe4">
-        <img src="images/coffe5.jpg" alt="coffe5">
+        <img src="images/coffe4.jpg" alt="coffe4" style="position: absolute; top: 940px; left: 70px;">
+        <img src="images/coffe5.jpg" alt="coffe5" style="position: absolute; top: 900px; left: 1340px;">
+    </div>
+    
+        <!-- Окна для навигации -->
+    <div class="windows">
+        <p class="menu-window"><a href="menu.html">View Menu</a></p>
+        <p class="about-window"><a href="about.html">Learn More</a></p>
+        <p class="reg-window"><a href="signup.html">Sign Up</a></p>
+        <p class="login-window"><a href="login.html">Log In</a></p>
+        <p><img src="images/logo.jpg" alt="logo"></p>
     </div>
 
+        <!-- Скрипт для карусели -->
     <script>
         const SLIDE_DELAY = 4000; // мс между слайдами
 

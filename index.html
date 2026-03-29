@@ -3,12 +3,261 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LeblancCoffe</title>
+    <title>LeblancCoffee</title>
     <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@1&family=Cormorant+Garamond:wght@300&display=swap" rel="stylesheet">
+    <style>
+        /* ── Обёртка карусели ── */
+        .carousel {
+            position: relative;
+            width: 100%;
+            max-width: 1100px;
+            margin: 40px auto;
+            overflow: hidden;
+            border-radius: 4px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        /* ── Лента слайдов ── */
+        .carousel-track {
+            display: flex;
+            transition: transform 0.65s cubic-bezier(0.77, 0, 0.18, 1);
+        }
+
+        /* ── Один слайд ── */
+        .carousel-slide {
+            min-width: 100%;
+            position: relative;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: 480px;
+            object-fit: cover;
+            display: block;
+            filter: sepia(15%) brightness(0.88);
+        }
+
+        /* Тёмный градиент снизу */
+        .carousel-slide::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        /* Подпись на слайде */
+        .slide-caption {
+            position: absolute;
+            bottom: 28px;
+            left: 36px;
+            z-index: 2;
+            color: #f5e6cc;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 14px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            opacity: 0.75;
+        }
+
+        /* ── Прогресс-бар ── */
+        .carousel-progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 2px;
+            width: 0%;
+            background: rgba(201, 146, 74, 0.8);
+            z-index: 5;
+        }
+
+        /* ── Стрелки ── */
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 1px solid rgba(180, 140, 90, 0.4);
+            background: rgba(0, 0, 0, 0.45);
+            color: #d4a96a;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.25s, background 0.25s;
+            backdrop-filter: blur(4px);
+        }
+
+        .carousel:hover .carousel-btn  { opacity: 1; }
+        .carousel-btn:hover             { background: rgba(180, 140, 90, 0.25); }
+
+        .carousel-btn.prev { left: 14px; }
+        .carousel-btn.next { right: 14px; }
+
+        .carousel-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* ── Точки ── */
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 3px;
+            background: rgba(180, 140, 90, 0.3);
+            border: 1px solid rgba(180, 140, 90, 0.5);
+            cursor: pointer;
+            transition: width 0.3s, background 0.3s;
+        }
+
+        .dot.active {
+            width: 22px;
+            background: #c9924a;
+            border-color: #c9924a;
+        }
+    </style>
 </head>
 <body>
-    <!-- НАВБАР -->
     <div id="navbar"></div>
     <script src="navbar.js"></script>
+
+    <h1>Welcome to Leblanc</h1>
+    <p>Enjoy our delicious coffee and desserts!</p>
+
+    <div class="carousel">
+        <div class="carousel-track" id="track">
+            <div class="carousel-slide">
+                <img src="images/picture1.jpg" alt="Leblanc atmosphere">
+                <span class="slide-caption">A quiet corner of Yongen-Jaya</span>
+            </div>
+            <div class="carousel-slide">
+                <img src="images/picture2.jpg" alt="Coffee">
+                <span class="slide-caption">Hand-brewed, one cup at a time</span>
+            </div>
+            <div class="carousel-slide">
+                <img src="images/picture3.jpg" alt="Interior">
+                <span class="slide-caption">Where strangers become regulars</span>
+            </div>
+            <div class="carousel-slide">
+                <img src="images/picture4.jpg" alt="Menu">
+                <span class="slide-caption">Simple pleasures, carefully made</span>
+            </div>
+            <div class="carousel-slide">
+                <img src="images/picture5.jpg" alt="Desserts">
+                <span class="slide-caption">Curry on Sundays. Always.</span>
+            </div>
+        </div>
+
+        <div class="carousel-progress" id="progress"></div>
+
+        <button class="carousel-btn prev" onclick="move(-1)">
+            <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button class="carousel-btn next" onclick="move(1)">
+            <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+    </div>
+
+    <div class="carousel-dots" id="dots"></div>
+
+    <script>
+        const SLIDE_DELAY = 4000; // мс между слайдами
+
+        const track    = document.getElementById('track');
+        const dotsWrap = document.getElementById('dots');
+        const progress = document.getElementById('progress');
+        const slides   = track.querySelectorAll('.carousel-slide');
+
+        let current = 0;
+        let autoplayTimer;
+
+        // Создаём точки
+        slides.forEach((_, i) => {
+            const dot = document.createElement('button');
+            dot.className = 'dot' + (i === 0 ? ' active' : '');
+            dot.onclick = () => goTo(i);
+            dotsWrap.appendChild(dot);
+        });
+
+        // Переходим к нужному слайду
+        function goTo(index) {
+            dotsWrap.children[current].classList.remove('active');
+            current = (index + slides.length) % slides.length;
+            dotsWrap.children[current].classList.add('active');
+            track.style.transform = `translateX(-${current * 100}%)`;
+            restartProgress();
+        }
+
+        // Сдвинуться на +1 или -1
+        function move(direction) {
+            goTo(current + direction);
+        }
+
+        // Прогресс-бар: сброс и запуск
+        function restartProgress() {
+            progress.style.transition = 'none';
+            progress.style.width = '0%';
+
+            // Два rAF нужны, чтобы браузер успел применить сброс до старта анимации
+            requestAnimationFrame(() => requestAnimationFrame(() => {
+                progress.style.transition = `width ${SLIDE_DELAY}ms linear`;
+                progress.style.width = '100%';
+            }));
+        }
+
+        // Автопрокрутка
+        function startAutoplay() {
+            clearInterval(autoplayTimer);
+            autoplayTimer = setInterval(() => move(1), SLIDE_DELAY);
+        }
+
+        // Пауза при наведении мышью
+        const carousel = document.querySelector('.carousel');
+        carousel.addEventListener('mouseenter', () => {
+            clearInterval(autoplayTimer);
+            progress.style.transition = 'none'; // замораживаем прогресс-бар
+        });
+        carousel.addEventListener('mouseleave', () => {
+            startAutoplay();
+            restartProgress();
+        });
+
+        // Свайп на мобильном
+        let touchStartX = 0;
+        carousel.addEventListener('touchstart', e => {
+            touchStartX = e.touches[0].clientX;
+        }, { passive: true });
+        carousel.addEventListener('touchend', e => {
+            const delta = e.changedTouches[0].clientX - touchStartX;
+            if (Math.abs(delta) > 45) move(delta < 0 ? 1 : -1);
+        });
+
+        // Стрелки клавиатуры
+        document.addEventListener('keydown', e => {
+            if (e.key === 'ArrowLeft')  move(-1);
+            if (e.key === 'ArrowRight') move(1);
+        });
+
+        // Старт
+        startAutoplay();
+        restartProgress();
+    </script>
 </body>
 </html>

@@ -1,14 +1,237 @@
 ﻿<!DOCTYPE html>
-<html lang= en>
+<html lang="en">
 <head>
-    <meta charset=UTF-8>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LeblancCoffe - Menu</title>
+    <title>LeblancCoffee - Menu</title>
     <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #ffffff;
+            color: #2a1f14;
+            position: relative;
+        }
+        /* Текстура шума */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        #navbar, header, main {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ── Шапка ── */
+        .page-header {
+            text-align: center;
+            padding: 80px 20px 40px;
+        }
+
+        .page-header::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 1px;
+            background: #c9924a;
+            margin: 24px auto 0;
+        }
+
+        .page-header .label {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 13px;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: #c9924a;
+            opacity: 0.8;
+        }
+
+        .page-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(28px, 4vw, 48px);
+            font-style: italic;
+            font-weight: 400;
+            color: #ab9168;
+            margin-top: 12px;
+        }
+
+        /* ── Сетка категорий ── */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 70px 100px;
+            max-width: 1100px;
+            margin: 60px auto 100px;
+            padding: 0 48px;
+        }
+
+        /* ── Одна категория ── */
+        .menu-category {
+            border-top: 1px solid rgba(201, 146, 74, 0.35);
+            padding-top: 24px;
+        }
+
+        .menu-category h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 13px;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: #c9924a;
+            font-weight: 400;
+            margin-bottom: 20px;
+        }
+
+        /* ── Одна позиция ── */
+        .menu-item {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 32px;
+        }
+
+        .menu-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .item-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 17px;
+            font-style: italic;
+            color: #3d2b18;
+        }
+
+        .item-desc {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 15px;
+            font-weight: 300;
+            color: #7a6040;
+            line-height: 1.5;
+        }
+
+        /* Разделитель между блоками */
+        .ornament {
+            text-align: center;
+            color: rgba(201, 146, 74, 0.35);
+            font-size: 16px;
+            letter-spacing: 0.5em;
+            margin: 0 0 60px;
+        }
+    </style>
 </head>
 <body>
-    <!-- Navigation -->
     <div id="navbar"></div>
     <script src="navbar.js"></script>
+
+    <header class="page-header">
+        <p class="label">Yongen-Jaya, Tokyo</p>
+        <h1>Our Menu</h1>
+    </header>
+
+    <div class="ornament">· · ·</div>
+
+    <main class="menu-grid">
+
+        <div class="menu-category">
+            <h2>Signature Coffee</h2>
+            <div class="menu-item">
+                <span class="item-name">Leblanc House Blend</span>
+                <span class="item-desc">Rich house coffee with a soft bitterness and notes of dark chocolate</span>
+            </div>
+            <div class="menu-item">
+                <span class="item-name">Sojiro's Special Brew</span>
+                <span class="item-desc">Bold and deep flavor with a lingering caramel finish</span>
+            </div>
+            <div class="menu-item">
+                <span class="item-name">Dark Roast Classic</span>
+                <span class="item-desc">Dark roast with an intense, smoky aroma</span>
+            </div>
+        </div>
+
+        <div class="menu-category">
+            <h2>Espresso Bar</h2>
+            <div class="menu-item">
+                <span class="item-name">Espresso</span>
+                <span class="item-desc">Classic, rich and energizing</span>
+            </div>
+            <div class="menu-item">
+                <span class="item-name">Americano</span>
+                <span class="item-desc">Smooth flavor with a gentle acidity</span>
+            </div>
+            <div class="menu-item">
+                <span class="item-name">Cappuccino</span>
+                <span class="item-desc">A balanced blend of espresso, steamed milk and foam</span>
+            </div>
+            <div class="menu-item">
+                <span class="item-name">Latte</span>
+                <span class="item-desc">Soft, creamy and comforting</span>
+            </div>
+        </div>
+
+        <div class="menu-category">
+            <h2>Hand Brew</h2>
+            <div class="menu-item">
+                <span class="item-name">Pour Over Coffee</span>
+                <span class="item-desc">Filter coffee that highlights the natural character of the bean</span>
+            </div>
+            <div class="menu-item">
+                <span class="item-name">Slow Drip Coffee</span>
+                <span class="item-desc">Smooth and clean profile with a long, gentle finish</span>
+            </div>
+        </div>
+
+        <div class="menu-category">
+            <h2>Cold Drinks</h2>
+            <div class="menu-item">
+                <span class="item-name">Iced Coffee</span>
+                <span class="item-desc">A refreshing take on classic iced coffee</span>
+            </div>
+            <div class="menu-item">
+                <span class="item-name">Cold Brew</span>
+                <span class="item-desc">Slow-steeped coffee with a mellow, slightly sweet taste</span>
+            </div>
+            <div class="menu-item">
+                <span class="item-name">Iced Latte</span>
+                <span class="item-desc">Iced latte with a smooth, velvety texture</span>
+            </div>
+        </div>
+
+        <div class="menu-category">
+            <h2>Tea & Other</h2>
+            <div class="menu-item">
+                <span class="item-name">Black Tea</span>
+                <span class="item-desc">Classic black tea</span>
+            </div>
+            <div class="menu-item">
+                <span class="item-name">Green Tea</span>
+                <span class="item-desc">Light and refreshing</span>
+            </div>
+            <div class="menu-item">
+                <span class="item-name">Hot Chocolate</span>
+                <span class="item-desc">Rich and thick hot chocolate</span>
+            </div>
+        </div>
+
+        <div class="menu-category">
+            <h2>Desserts</h2>
+            <div class="menu-item">
+                <span class="item-name">Homemade Curry</span>
+                <span class="item-desc">The house specialty — legendary among regulars</span>
+            </div>
+            <div class="menu-item">
+                <span class="item-name">Coffee Jelly</span>
+                <span class="item-desc">A coffee-based dessert with a soft, silky texture</span>
+            </div>
+            <div class="menu-item">
+                <span class="item-name">Cheesecake</span>
+                <span class="item-desc">Delicate and creamy cheesecake</span>
+            </div>
+        </div>
+
+    </main>
 </body>
 </html>

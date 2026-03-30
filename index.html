@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LeblancCoffee</title>
     <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@1&family=Cormorant+Garamond:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@1&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
     <style>
         /* Заголовок */
         h1 {
@@ -22,7 +22,8 @@
             margin-top: 12px;
             color: #555;
         }
-        /* ── Обёртка карусели ── */
+
+        /* ── Карусель ── */
         .carousel {
             position: relative;
             width: 100%;
@@ -32,19 +33,14 @@
             border-radius: 4px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
         }
-
-        /* ── Лента слайдов ── */
         .carousel-track {
             display: flex;
             transition: transform 0.65s cubic-bezier(0.77, 0, 0.18, 1);
         }
-
-        /* ── Один слайд ── */
         .carousel-slide {
             min-width: 100%;
             position: relative;
         }
-
         .carousel-slide img {
             width: 100%;
             height: 480px;
@@ -52,8 +48,6 @@
             display: block;
             filter: sepia(15%) brightness(0.88);
         }
-
-        /* Тёмный градиент снизу */
         .carousel-slide::after {
             content: '';
             position: absolute;
@@ -61,8 +55,6 @@
             background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 50%);
             pointer-events: none;
         }
-
-        /* Подпись на слайде */
         .slide-caption {
             position: absolute;
             bottom: 28px;
@@ -75,8 +67,6 @@
             text-transform: uppercase;
             opacity: 0.75;
         }
-
-        /* ── Прогресс-бар ── */
         .carousel-progress {
             position: absolute;
             bottom: 0;
@@ -86,8 +76,6 @@
             background: rgba(201, 146, 74, 0.8);
             z-index: 5;
         }
-
-        /* ── Стрелки ── */
         .carousel-btn {
             position: absolute;
             top: 50%;
@@ -107,13 +95,10 @@
             transition: opacity 0.25s, background 0.25s;
             backdrop-filter: blur(4px);
         }
-
-        .carousel:hover .carousel-btn  { opacity: 1; }
-        .carousel-btn:hover             { background: rgba(180, 140, 90, 0.25); }
-
+        .carousel:hover .carousel-btn { opacity: 1; }
+        .carousel-btn:hover            { background: rgba(180, 140, 90, 0.25); }
         .carousel-btn.prev { left: 14px; }
         .carousel-btn.next { right: 14px; }
-
         .carousel-btn svg {
             width: 18px;
             height: 18px;
@@ -123,15 +108,12 @@
             stroke-linecap: round;
             stroke-linejoin: round;
         }
-
-        /* ── Точки ── */
         .carousel-dots {
             display: flex;
             justify-content: center;
             gap: 10px;
             margin-top: 16px;
         }
-
         .dot {
             width: 6px;
             height: 6px;
@@ -141,62 +123,96 @@
             cursor: pointer;
             transition: width 0.3s, background 0.3s;
         }
-
         .dot.active {
             width: 22px;
             background: #c9924a;
             border-color: #c9924a;
         }
+
+        /* ── Кружки по бокам ── */
         .coffe img {
             width: 100px;
-            height: auto;  
-            object-fit: cover; 
-        }
-        .windows p {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 18px;
-            text-align: center;
-            margin-top: 24px;
-            color: #c9924a;
-        }
-        .menu-window a, .about-window a, .reg-window a, .login-window a {
-            font-size: 40px;
-            text-decoration: none;
-            color: #d27373;            
-            border: 1px solid #c9924a;
-            padding: 8px 16px;
-            border-radius: 4px;
-            transition: background 0.3s, color 0.3s;
-            padding: 80px 40px;
-        }
-        .menu-window{
-            position: absolute;
-            top: 880px;
-            left: 765px;
-        }
-        .about-window{
-            position: absolute;
-            top: 1100px;
-            left: 790px;
-        }
-        .reg-window{
-            position: absolute;
-            top: 800px;
-            left: 1000px;
-            padding: 80px 40px;
-        }
-        .login-window{
-            position: absolute;
-            top: 1000px;
-            left: 965px;
-            padding: 100px 100px;
-        }
-        .windows img {
-            width: 450px;
             height: auto;
+            object-fit: cover;
+        }
+
+        /* ── Карточки навигации ── */
+        .nav-cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            max-width: 1100px;
+            margin: 60px auto 80px;
+            padding: 0 20px;
+        }
+
+        .nav-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 40px 20px;
+            border: 1px solid rgba(201, 146, 74, 0.3);
+            border-radius: 4px;
+            text-decoration: none;
+            color: #c9924a;
+            background: rgba(201, 146, 74, 0.04);
+            transition: background 0.3s, border-color 0.3s, transform 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Линия снизу при hover */
+        .nav-card::after {
+            content: '';
             position: absolute;
-            top: 790px;
-            left: 240px;
+            bottom: 0;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background: #c9924a;
+            transition: width 0.4s ease;
+        }
+
+        .nav-card:hover {
+            background: rgba(201, 146, 74, 0.10);
+            border-color: rgba(201, 146, 74, 0.7);
+            transform: translateY(-3px);
+        }
+
+        .nav-card:hover::after {
+            width: 100%;
+        }
+
+        .nav-card-icon {
+            font-size: 28px;
+            opacity: 0.8;
+        }
+
+        .nav-card-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 22px;
+            font-weight: 400;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .nav-card-sub {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 13px;
+            font-style: italic;
+            color: #a07840;
+            letter-spacing: 0.05em;
+        }
+        /* ── Футер ── */
+        .underground {
+            text-align: center;
+            background: #f5e6cc;
+            padding: 20px 10px;
+            font-family: 'Cormorant Garamond', serif;
+            color: #555;
+            font-size: 14px;
         }
     </style>
 </head>
@@ -242,28 +258,51 @@
     </div>
 
     <div class="carousel-dots" id="dots"></div>
-        
-        <!-- Кружки для фона -->
+
+    <!-- Кружки для фона -->
     <div class="coffe">
-        <img src="images/coffe1.jpg" alt="coffe1" style="position: absolute; left: 45px; top: 300px;"> 
+        <img src="images/coffe1.jpg" alt="coffe1" style="position: absolute; left: 45px; top: 300px;">
         <img src="images/coffe2.jpg" alt="coffe2" style="position: absolute; top: 150px; left: 1375px;">
         <img src="images/coffe3.jpg" alt="coffe3" style="position: absolute; top: 500px; left: 1385px;">
-        <img src="images/coffe4.jpg" alt="coffe4" style="position: absolute; top: 940px; left: 70px;">
-        <img src="images/coffe5.jpg" alt="coffe5" style="position: absolute; top: 900px; left: 1340px;">
-    </div>
-    
-        <!-- Окна для навигации -->
-    <div class="windows">
-        <p class="menu-window"><a href="menu.html">View Menu</a></p>
-        <p class="about-window"><a href="about.html">Learn More</a></p>
-        <p class="reg-window"><a href="signup.html">Sign Up</a></p>
-        <p class="login-window"><a href="login.html">Log In</a></p>
-        <p><img src="images/logo.jpg" alt="logo"></p>
+        <img src="images/coffe4.jpg" alt="coffe4" style="position: absolute; top: 820px; left: 40px;">
+        <img src="images/coffe5.jpg" alt="coffe5" style="position: absolute; top: 850px; left: 1380px;">
     </div>
 
-        <!-- Скрипт для карусели -->
+    <!-- Карточки навигации -->
+    <div class="nav-cards">
+        <a class="nav-card" href="menu.html">
+            <span class="nav-card-icon">☕</span>
+            <span class="nav-card-title">Menu</span>
+            <span class="nav-card-sub">Coffee & curry</span>
+        </a>
+        <a class="nav-card" href="about.html">
+            <span class="nav-card-icon">🕯</span>
+            <span class="nav-card-title">About</span>
+            <span class="nav-card-sub">The story of Leblanc</span>
+        </a>
+        <a class="nav-card" href="signin.html">
+            <span class="nav-card-icon">✦</span>
+            <span class="nav-card-title">Sign Up</span>
+            <span class="nav-card-sub">Become a regular</span>
+        </a>
+        <a class="nav-card" href="login.html">
+            <span class="nav-card-icon">🗝</span>
+            <span class="nav-card-title">Log In</span>
+            <span class="nav-card-sub">Welcome back</span>
+        </a>
+    </div>
+    
+    <div class="underground">
+        <footer>
+            <p>nember: 81..</p>
+            <p>email: leblanc@..</p>
+            <p>adress: japan..</p>
+            <p>© 2026 Leblanc Coffee. The coffee shop is fictitious, don't order coffee.</p>
+        </footer>
+    </div>
+
     <script>
-        const SLIDE_DELAY = 4000; // мс между слайдами
+        const SLIDE_DELAY = 4000;
 
         const track    = document.getElementById('track');
         const dotsWrap = document.getElementById('dots');
@@ -273,7 +312,6 @@
         let current = 0;
         let autoplayTimer;
 
-        // Создаём точки
         slides.forEach((_, i) => {
             const dot = document.createElement('button');
             dot.className = 'dot' + (i === 0 ? ' active' : '');
@@ -281,7 +319,6 @@
             dotsWrap.appendChild(dot);
         });
 
-        // Переходим к нужному слайду
         function goTo(index) {
             dotsWrap.children[current].classList.remove('active');
             current = (index + slides.length) % slides.length;
@@ -290,41 +327,34 @@
             restartProgress();
         }
 
-        // Сдвинуться на +1 или -1
         function move(direction) {
             goTo(current + direction);
         }
 
-        // Прогресс-бар: сброс и запуск
         function restartProgress() {
             progress.style.transition = 'none';
             progress.style.width = '0%';
-
-            // Два rAF нужны, чтобы браузер успел применить сброс до старта анимации
             requestAnimationFrame(() => requestAnimationFrame(() => {
                 progress.style.transition = `width ${SLIDE_DELAY}ms linear`;
                 progress.style.width = '100%';
             }));
         }
 
-        // Автопрокрутка
         function startAutoplay() {
             clearInterval(autoplayTimer);
             autoplayTimer = setInterval(() => move(1), SLIDE_DELAY);
         }
 
-        // Пауза при наведении мышью
         const carousel = document.querySelector('.carousel');
         carousel.addEventListener('mouseenter', () => {
             clearInterval(autoplayTimer);
-            progress.style.transition = 'none'; // замораживаем прогресс-бар
+            progress.style.transition = 'none';
         });
         carousel.addEventListener('mouseleave', () => {
             startAutoplay();
             restartProgress();
         });
 
-        // Свайп на мобильном
         let touchStartX = 0;
         carousel.addEventListener('touchstart', e => {
             touchStartX = e.touches[0].clientX;
@@ -334,13 +364,11 @@
             if (Math.abs(delta) > 45) move(delta < 0 ? 1 : -1);
         });
 
-        // Стрелки клавиатуры
         document.addEventListener('keydown', e => {
             if (e.key === 'ArrowLeft')  move(-1);
             if (e.key === 'ArrowRight') move(1);
         });
 
-        // Старт
         startAutoplay();
         restartProgress();
     </script>

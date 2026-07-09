@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeblancCoffee - History</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+    <style>
+        body {
+            /* Тёплый сепия-тон вместо чистого белого */
+            background-color: #ffffff;
+            color: #2a1f14;
+            position: relative;
+        }
+
+        /* Текстура шума поверх фона */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Всё содержимое поверх псевдоэлементов */
+        #navbar, header, article {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ── Шапка страницы ── */
+        .page-header {
+            text-align: center;
+            padding: 80px 20px 40px;
+        }
+
+        .page-header::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 1px;
+            background: #c9924a;
+            margin: 24px auto 0;
+        }
+
+        .page-header .label {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 13px;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: #c9924a;
+            opacity: 0.8;
+        }
+
+        .page-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(32px, 5vw, 54px);
+            font-style: italic;
+            font-weight: 400;
+            color: #ab9168;
+            margin-top: 12px;
+            line-height: 1.2;
+        }
+
+        /* ── Основной блок ── */
+        .story {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 60px 32px 120px;
+
+            /* Декоративные вертикальные линии по бокам */
+            border-left: 1px solid rgba(201, 146, 74, 0.15);
+            border-right: 1px solid rgba(201, 146, 74, 0.15);
+        }
+
+        .story .lead {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 22px;
+            font-weight: 300;
+            line-height: 1.75;
+            color: #71562f;
+            margin-bottom: 40px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid rgba(201, 146, 74, 0.2);
+        }
+
+        .story p {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 18px;
+            font-weight: 300;
+            line-height: 1.9;
+            color: #332313;
+            margin-bottom: 28px;
+        }
+
+        .story blockquote {
+            margin: 48px 0;
+            padding: 0 0 0 28px;
+            border-left: 2px solid #c9924a;
+        }
+
+        .story blockquote p {
+            font-style: italic;
+            font-size: 20px;
+            color: #c9a87a;
+            margin-bottom: 0;
+        }
+
+        .story .closing {
+            margin-top: 48px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(201, 146, 74, 0.2);
+            font-style: italic;
+            color: #c9924a;
+            text-align: center;
+            font-size: 19px;
+        }
+
+        .ornament {
+            text-align: center;
+            color: rgba(201, 146, 74, 0.4);
+            font-size: 18px;
+            letter-spacing: 0.5em;
+            margin: 8px 0 36px;
+        }
+    </style>
+</head>
+<body>
+    <div id="navbar"></div>
+    <script src="navbar.js"></script>
+
+    <header class="page-header">
+        <p class="label">Yongen-Jaya, Tokyo</p>
+        <h1>The Story of Leblanc</h1>
+    </header>
+
+    <article class="story">
+
+        <p class="lead">
+            Leblanc is a small coffee shop located in the quiet residential district of Yongen-Jaya. Over the years, it has become known as a place where simplicity, quality, and a calm atmosphere come together.
+        </p>
+
+        <div class="ornament">· · ·</div>
+
+        <p>
+            At first glance, Leblanc may seem modest and unassuming. However, its charm lies precisely in that simplicity. The shop was founded by Sojiro Sakura, a man known for his attention to detail and deep appreciation for the art of coffee making.
+        </p>
+
+        <blockquote>
+            <p>His philosophy focuses on respecting traditional brewing methods while creating a space where every guest feels welcome.</p>
+        </blockquote>
+
+        <p>
+            As time passed, Leblanc grew into more than just a coffee shop. It became a familiar part of the neighborhood — a place where people come to take a break from the rush of daily life, enjoy a quiet moment, or have a relaxed conversation.
+        </p>
+
+        <p>
+            The interior features warm tones, wooden elements, and soft lighting, all contributing to a cozy and intimate environment. The second floor, in particular, offers a more private setting, ideal for working, studying, or simply spending time alone.
+        </p>
+
+        <p>
+            Despite its small size, Leblanc has built a reputation as a place with character. It is not only about the coffee, but about the atmosphere — calm, genuine, and slightly removed from the fast pace of the city.
+        </p>
+
+        <p class="closing">
+            Today, Leblanc remains a symbol of comfort and simplicity,<br>
+            attracting those who are looking for more than just a cup of coffee.
+        </p>
+
+    </article>
+    <script src="site.js"></script>
+</body>
+</html>

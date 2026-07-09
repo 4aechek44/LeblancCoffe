@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeblancCoffee</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@1&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+    <style>
+        /* Заголовок */
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            text-align: center;
+            margin-top: 24px;
+            color: #c9924a;
+        }
+        .about-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 18px;
+            text-align: center;
+            margin-top: 12px;
+            color: #555;
+        }
+
+        /* ── Карусель ── */
+        body {
+            position: relative;
+        }
+
+        h1,
+        .about-text,
+        .carousel,
+        .carousel-dots,
+        .nav-cards,
+        .underground {
+            position: relative;
+            z-index: 1;
+        }
+
+        .carousel {
+            position: relative;
+            width: min(100% - 32px, 1100px);
+            max-width: 1100px;
+            margin: 40px auto;
+            overflow: hidden;
+            border-radius: 4px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+        .carousel-track {
+            display: flex;
+            transition: transform 0.65s cubic-bezier(0.77, 0, 0.18, 1);
+        }
+        .carousel-slide {
+            min-width: 100%;
+            position: relative;
+        }
+        .carousel-slide img {
+            width: 100%;
+            height: clamp(320px, 48vw, 480px);
+            object-fit: cover;
+            display: block;
+            filter: sepia(15%) brightness(0.88);
+        }
+        .carousel-slide::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .slide-caption {
+            position: absolute;
+            bottom: 28px;
+            left: 36px;
+            z-index: 2;
+            color: #f5e6cc;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 14px;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            opacity: 0.75;
+        }
+        .carousel-progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 2px;
+            width: 0%;
+            background: rgba(201, 146, 74, 0.8);
+            z-index: 5;
+        }
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 1px solid rgba(180, 140, 90, 0.4);
+            background: rgba(0, 0, 0, 0.45);
+            color: #d4a96a;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.25s, background 0.25s;
+            backdrop-filter: blur(4px);
+        }
+        .carousel:hover .carousel-btn { opacity: 1; }
+        .carousel-btn:hover            { background: rgba(180, 140, 90, 0.25); }
+        .carousel-btn.prev { left: 14px; }
+        .carousel-btn.next { right: 14px; }
+        .carousel-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 16px;
+        }
+        .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 3px;
+            background: rgba(180, 140, 90, 0.3);
+            border: 1px solid rgba(180, 140, 90, 0.5);
+            cursor: pointer;
+            transition: width 0.3s, background 0.3s;
+        }
+        .dot.active {
+            width: 22px;
+            background: #c9924a;
+            border-color: #c9924a;
+        }
+
+        /* ── Кружки по бокам ── */
+        .coffe img {
+            width: 100px;
+            height: auto;
+            object-fit: cover;
+        }
+
+        .coffee-decor {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .coffee-decor img {
+            position: absolute;
+            width: clamp(74px, 8vw, 112px);
+            opacity: 0.24;
+            filter: sepia(16%);
+            transform: translate3d(0, 0, 0);
+            transition: transform 650ms cubic-bezier(0.2, 0.8, 0.2, 1);
+            will-change: transform;
+        }
+
+        .decor-1 { left: max(18px, 4vw); top: 330px; }
+        .decor-2 { right: max(18px, 5vw); top: 180px; }
+        .decor-3 { right: max(12px, 3vw); top: 560px; }
+        .decor-4 { left: max(18px, 5vw); top: 850px; }
+        .decor-5 { right: max(18px, 5vw); top: 890px; }
+
+        /* ── Карточки навигации ── */
+        .nav-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            max-width: 1100px;
+            margin: 60px auto 80px;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .nav-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 40px 20px;
+            border: 1px solid rgba(201, 146, 74, 0.3);
+            border-radius: 4px;
+            text-decoration: none;
+            color: #c9924a;
+            background: rgba(201, 146, 74, 0.04);
+            transition: background 0.3s, border-color 0.3s, transform 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Линия снизу при hover */
+        .nav-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background: #c9924a;
+            transition: width 0.4s ease;
+        }
+
+        .nav-card:hover {
+            background: rgba(201, 146, 74, 0.10);
+            border-color: rgba(201, 146, 74, 0.7);
+            transform: translateY(-3px);
+        }
+
+        .nav-card:hover::after {
+            width: 100%;
+        }
+
+        .nav-card-icon {
+            font-size: 28px;
+            opacity: 0.8;
+        }
+
+        .nav-card-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 22px;
+            font-weight: 400;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        .nav-card-sub {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 13px;
+            font-style: italic;
+            color: #a07840;
+            letter-spacing: 0.05em;
+        }
+        /* ── Футер ── */
+        .underground {
+            text-align: center;
+            background: #f5e6cc;
+            padding: 20px 10px;
+            font-family: 'Cormorant Garamond', serif;
+            color: #555;
+            font-size: 14px;
+        }
+
+        @media (max-width: 720px) {
+            h1 {
+                font-size: 34px;
+                padding: 0 16px;
+            }
+
+            .about-text {
+                padding: 0 18px;
+            }
+
+            .slide-caption {
+                left: 22px;
+                right: 22px;
+                bottom: 22px;
+                font-size: 12px;
+                line-height: 1.5;
+            }
+
+            .carousel {
+                margin: 28px auto;
+            }
+
+            .nav-cards {
+                grid-template-columns: 1fr;
+                margin-top: 44px;
+            }
+
+            .nav-card {
+                min-height: 150px;
+                padding: 34px 20px;
+            }
+
+            .coffee-decor {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="navbar"></div>
+    <script src="navbar.js"></script>
+
+    <h1>Welcome to Leblanc</h1>
+    <p class="about-text">Enjoy our delicious coffee and desserts!</p>
+
+    <div class="carousel">
+        <div class="carousel-track" id="track">
+            <div class="carousel-slide">
+                <img src="images/picture1.jpg" alt="Leblanc atmosphere">
+                <span class="slide-caption">A quiet corner of Yongen-Jaya</span>
+            </div>
+            <div class="carousel-slide">
+                <img src="images/picture2.jpg" alt="Coffee">
+                <span class="slide-caption">Hand-brewed, one cup at a time</span>
+            </div>
+            <div class="carousel-slide">
+                <img src="images/picture3.jpg" alt="Interior">
+                <span class="slide-caption">Where strangers become regulars</span>
+            </div>
+            <div class="carousel-slide">
+                <img src="images/picture4.jpg" alt="Menu">
+                <span class="slide-caption">Simple pleasures, carefully made</span>
+            </div>
+            <div class="carousel-slide">
+                <img src="images/picture5.jpg" alt="Desserts">
+                <span class="slide-caption">Curry on Sundays. Always.</span>
+            </div>
+        </div>
+
+        <div class="carousel-progress" id="progress"></div>
+
+        <button class="carousel-btn prev" onclick="move(-1)">
+            <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button class="carousel-btn next" onclick="move(1)">
+            <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+    </div>
+
+    <div class="carousel-dots" id="dots"></div>
+
+    <!-- Кружки для фона -->
+    <div class="coffee-decor" aria-hidden="true">
+        <img class="decor-1" src="images/coffe1.jpg" alt="" data-depth="10">
+        <img class="decor-2" src="images/coffe2.jpg" alt="" data-depth="-14">
+        <img class="decor-3" src="images/coffe3.jpg" alt="" data-depth="18">
+        <img class="decor-4" src="images/coffe4.jpg" alt="" data-depth="-10">
+        <img class="decor-5" src="images/coffe5.jpg" alt="" data-depth="14">
+    </div>
+
+    <!-- Карточки навигации -->
+    <div class="nav-cards">
+        <a class="nav-card" href="menu.html">
+            <span class="nav-card-icon">☕</span>
+            <span class="nav-card-title">Menu</span>
+            <span class="nav-card-sub">Coffee & curry</span>
+        </a>
+        <a class="nav-card" href="about.html">
+            <span class="nav-card-icon">🕯</span>
+            <span class="nav-card-title">About</span>
+            <span class="nav-card-sub">The story of Leblanc</span>
+        </a>
+        <a class="nav-card" href="signin.html">
+            <span class="nav-card-icon">✦</span>
+            <span class="nav-card-title">Sign Up</span>
+            <span class="nav-card-sub">Become a regular</span>
+        </a>
+        <a class="nav-card" href="register.html">
+            <span class="nav-card-icon">🗝</span>
+            <span class="nav-card-title">Register</span>
+            <span class="nav-card-sub">Welcome back</span>
+        </a>
+    </div>
+    
+    <div class="underground">
+        <footer>
+            <p>number: 81..</p>
+            <p>email: leblanc@..</p>
+            <p>adress: Yongen-Jaya, Tokyo</p>
+            <p>© 2026 Leblanc Coffee. The coffee shop is fictitious, don't order coffee.</p>
+        </footer>
+    </div>
+
+    <script>
+        const SLIDE_DELAY = 3500;
+
+        const track    = document.getElementById('track');
+        const dotsWrap = document.getElementById('dots');
+        const progress = document.getElementById('progress');
+        const slides   = track.querySelectorAll('.carousel-slide');
+
+        let current = 0;
+        let autoplayTimer;
+
+        slides.forEach((_, i) => {
+            const dot = document.createElement('button');
+            dot.className = 'dot' + (i === 0 ? ' active' : '');
+            dot.onclick = () => goTo(i);
+            dotsWrap.appendChild(dot);
+        });
+
+        function goTo(index) {
+            dotsWrap.children[current].classList.remove('active');
+            current = (index + slides.length) % slides.length;
+            dotsWrap.children[current].classList.add('active');
+            track.style.transform = `translateX(-${current * 100}%)`;
+            restartProgress();
+        }
+
+        function move(direction) {
+            goTo(current + direction);
+        }
+
+        function restartProgress() {
+            progress.style.transition = 'none';
+            progress.style.width = '0%';
+            requestAnimationFrame(() => requestAnimationFrame(() => {
+                progress.style.transition = `width ${SLIDE_DELAY}ms linear`;
+                progress.style.width = '100%';
+            }));
+        }
+
+        function startAutoplay() {
+            clearInterval(autoplayTimer);
+            autoplayTimer = setInterval(() => move(1), SLIDE_DELAY);
+        }
+
+        const carousel = document.querySelector('.carousel');
+        carousel.addEventListener('mouseenter', () => {
+            clearInterval(autoplayTimer);
+            progress.style.transition = 'none';
+        });
+        carousel.addEventListener('mouseleave', () => {
+            startAutoplay();
+            restartProgress();
+        });
+
+        let touchStartX = 0;
+        carousel.addEventListener('touchstart', e => {
+            touchStartX = e.touches[0].clientX;
+        }, { passive: true });
+        carousel.addEventListener('touchend', e => {
+            const delta = e.changedTouches[0].clientX - touchStartX;
+            if (Math.abs(delta) > 45) move(delta < 0 ? 1 : -1);
+        });
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'ArrowLeft')  move(-1);
+            if (e.key === 'ArrowRight') move(1);
+        });
+
+        startAutoplay();
+        restartProgress();
+    </script>
+    <script src="site.js"></script>
+</body>
+</html>

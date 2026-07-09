@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LeblancCoffee — Sign In</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #ffffff;
+            color: #2a1f14;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Noise texture — как на остальных страницах */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        #navbar { position: relative; z-index: 2; }
+
+        .auth-wrapper {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 80px);
+            padding: 60px 20px;
+        }
+
+        /* ── Тёмная панель ── */
+        .auth-panel {
+            width: 100%;
+            max-width: 400px;
+            padding: 64px 52px 72px;
+            background: #2d2215;
+            border: 1px solid rgba(201, 146, 74, 0.18);
+            border-radius: 8px;
+            box-shadow:
+                0 24px 64px rgba(0, 0, 0, 0.22),
+                inset 0 1px 0 rgba(183, 135, 73, 0.1);
+            animation: fadeUp 0.7s ease both;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .auth-label {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 11px;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: #c9924a;
+            opacity: 0.6;
+            display: block;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .auth-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(28px, 4vw, 38px);
+            font-style: italic;
+            font-weight: 400;
+            color: #c9a87a;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .auth-divider {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin: 36px 0 44px;
+        }
+        .auth-divider::before,
+        .auth-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(201, 146, 74, 0.12);
+        }
+        .auth-divider span {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 16px;
+            color: rgba(201, 146, 74, 0.3);
+            letter-spacing: 0.4em;
+        }
+
+        .field {
+            position: relative;
+            margin-bottom: 32px;
+        }
+
+        .field label {
+            display: block;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 11px;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: rgba(201, 146, 74, 0.5);
+            margin-bottom: 10px;
+            transition: color 0.3s;
+        }
+
+        .field input {
+            width: 100%;
+            box-sizing: border-box;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid rgba(201, 146, 74, 0.18);
+            padding: 10px 0;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 18px;
+            color: #d4b483;
+            outline: none;
+        }
+
+        .field input::placeholder {
+            color: rgba(180, 130, 70, 0.2);
+            font-style: italic;
+        }
+
+        .field::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 0;
+            height: 1px;
+            background: #c9924a;
+            transition: width 0.4s ease;
+        }
+        .field:focus-within::after { width: 100%; }
+        .field:focus-within label  { color: rgba(201, 146, 74, 0.9); }
+
+        .auth-btn {
+            width: 100%;
+            margin-top: 12px;
+            padding: 17px;
+            background: transparent;
+            border: 1px solid rgba(201, 146, 74, 0.35);
+            color: #c9924a;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 13px;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: color 0.4s;
+        }
+
+        .auth-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: #c9924a;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+            z-index: 0;
+        }
+
+        .auth-btn:hover { color: #fff8ee; }
+        .auth-btn:hover::before { transform: scaleX(1); }
+        .auth-btn span { position: relative; z-index: 1; }
+
+        .auth-foot {
+            margin-top: 38px;
+            text-align: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 15px;
+            font-style: italic;
+            color: rgba(180, 130, 70, 0.45);
+        }
+
+        .auth-foot a {
+            color: #c9924a;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(201, 146, 74, 0.25);
+            transition: border-color 0.3s, color 0.3s;
+        }
+
+        .auth-foot a:hover {
+            color: #e0b87a;
+            border-color: #c9924a;
+        }
+
+        .ornament {
+            text-align: center;
+            color: rgba(201, 146, 74, 0.18);
+            font-size: 15px;
+            letter-spacing: 0.6em;
+            margin-top: 48px;
+        }
+
+        @media (max-width: 520px) {
+            .auth-wrapper {
+                align-items: flex-start;
+                padding: 40px 16px 56px;
+            }
+
+            .auth-panel {
+                padding: 44px 28px 48px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="navbar"></div>
+    <script src="navbar.js"></script>
+
+    <div class="auth-wrapper">
+        <div class="auth-panel">
+            <span class="auth-label">Leblanc · Yongen-Jaya</span>
+            <h1 class="auth-title">Welcome back</h1>
+
+            <div class="auth-divider"><span>· · ·</span></div>
+
+            <form data-auth-form="signin">
+            <div class="field">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" placeholder="your name" autocomplete="username" required>
+            </div>
+
+            <div class="field">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="........" autocomplete="current-password" required>
+            </div>
+
+            <button class="auth-btn" type="submit"><span>Sign In</span></button>
+            <p class="auth-status" data-auth-status aria-live="polite"></p>
+            </form>
+
+            <p class="auth-foot">
+                No account yet? <a href="register.html">Register here</a>
+            </p>
+
+            <div class="ornament">· · ·</div>
+        </div>
+    </div>
+    <script src="site.js"></script>
+</body>
+</html>

@@ -41,7 +41,7 @@
             padding: 64px 52px 72px;
             background: #2d2215;
             border: 1px solid rgba(201, 146, 74, 0.18);
-            border-radius: 52px;
+            border-radius: 8px;
             box-shadow:
                 0 24px 64px rgba(0, 0, 0, 0.22),
                 inset 0 1px 0 rgba(201, 146, 74, 0.1);
@@ -219,6 +219,17 @@
             letter-spacing: 0.6em;
             margin-top: 48px;
         }
+
+        @media (max-width: 520px) {
+            .auth-wrapper {
+                align-items: flex-start;
+                padding: 40px 16px 56px;
+            }
+
+            .auth-panel {
+                padding: 44px 28px 48px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -233,28 +244,31 @@
 
             <div class="auth-divider"><span>· · ·</span></div>
 
+            <form data-auth-form="register">
             <div class="field">
                 <label for="username">Username</label>
-                <input type="text" id="username" placeholder="your name">
+                <input type="text" id="username" name="username" placeholder="your name" autocomplete="username" required>
             </div>
 
             <div class="field">
                 <label for="email">Email</label>
-                <input type="email" id="email" placeholder="your@email.com">
+                <input type="email" id="email" name="email" placeholder="your@email.com" autocomplete="email" required>
             </div>
 
             <div class="field">
                 <label for="password">Password</label>
-                <input type="password" id="password" placeholder="••••••••">
+                <input type="password" id="password" name="password" placeholder="........" autocomplete="new-password" required minlength="8">
                 <p class="field-hint">At least 8 characters</p>
             </div>
 
             <div class="field">
                 <label for="confirm">Confirm password</label>
-                <input type="password" id="confirm" placeholder="••••••••">
+                <input type="password" id="confirm" name="confirm" placeholder="........" autocomplete="new-password" required minlength="8">
             </div>
 
-            <button class="auth-btn"><span>Create Account</span></button>
+            <button class="auth-btn" type="submit"><span>Create Account</span></button>
+            <p class="auth-status" data-auth-status aria-live="polite"></p>
+            </form>
 
             <p class="auth-foot">
                 Already a regular? <a href="signin.html">Sign in</a>
@@ -263,5 +277,6 @@
             <div class="ornament">· · ·</div>
         </div>
     </div>
+    <script src="site.js"></script>
 </body>
 </html>

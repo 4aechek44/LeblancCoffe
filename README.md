@@ -9,8 +9,7 @@ Fan-made cafe website inspired by Leblanc from Persona 5. The project focuses on
 ![Menu page](docs/screenshots/menu.png)
 
 ![Register page](docs/screenshots/register.png)
-
-## Features
+ 
 
 - Responsive navigation for desktop and mobile screens.
 - Atmospheric carousel on the home page.

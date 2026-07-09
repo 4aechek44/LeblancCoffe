@@ -4,11 +4,9 @@ Fan-made cafe website inspired by Leblanc from Persona 5. The project focuses on
 
 ## Screenshots
 
-![Home page](docs/screenshots/home.png)
+![Home page](docs/screenshots/home.jpg)
 
-![Menu page](docs/screenshots/menu.png)
-
-![Register page](docs/screenshots/register.png<<<<<< HEAD
+![Menu page](docs/screenshots/menu.jpg)
  
 =======
 

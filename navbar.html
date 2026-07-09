@@ -1,62 +1,107 @@
 <style>
     nav {
-        border: 1px solid #764747;
-        box-shadow: #764747 0px 4px 8px;
-        padding: 1px;
-        min-height: 66px;
+        display: flex;
+        align-items: center;
+        gap: 28px;
+        width: min(100% - 16px, 1180px);
+        min-height: 76px;
+        margin: 8px auto 0;
+        padding: 10px 24px;
+        border: 1px solid rgba(118, 71, 71, 0.45);
+        border-radius: 4px;
+        background: rgba(255, 253, 249, 0.94);
+        box-shadow: 0 8px 22px rgba(118, 71, 71, 0.2);
         position: relative;
+        z-index: 10;
     }
 
     nav a {
-        margin-right: 15px;
         text-decoration: none;
         color: #333;
+        white-space: nowrap;
     }
+
     nav a:hover {
         color: #a07840;
     }
+
     .nav-logo img {
         width: 60px;
         height: 60px;
-        position: relative;
-        left: 15px;
-        top: 3px;
+        object-fit: cover;
     }
+
     .nav-link {
         font-size: 20px;
-        position: relative;
-        top: -20px;
-        left: 20px;
         font-family: 'Cormorant Garamond', serif;
     }
+
+    .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-left: auto;
+    }
+
     .registration {
-        position: absolute;
-        right: 20px;
-        top: 15px;
         font-size: 16px;
         border: #000000 1px solid;
-        border-radius: 10px;
-        padding: 10px;
+        border-radius: 8px;
+        padding: 10px 14px;
         color: #000000;
     }
+
     .registration:hover{
         border: 1px solid #a07840;
     }
+
     .login {
-        position: absolute;
-        right: 100px;
-        top: 15px;
         font-size: 16px;
         border: #000000 1px solid;
-        border-radius: 10px;
-        padding: 10px;
+        border-radius: 8px;
+        padding: 10px 14px;
         color: #000000;
     }
-    .registration:hover{
-        border: 1px solid #a07840;
-    }
+
     .login:hover{
         border: 1px solid #a07840;
+    }
+
+    @media (max-width: 640px) {
+        nav {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 10px 16px;
+            padding: 10px 14px 14px;
+        }
+
+        .nav-logo {
+            grid-row: span 2;
+        }
+
+        .nav-logo img {
+            width: 54px;
+            height: 54px;
+        }
+
+        .nav-link {
+            font-size: 19px;
+            line-height: 1.1;
+        }
+
+        .nav-actions {
+            grid-column: 2;
+            width: 100%;
+            margin-left: 0;
+        }
+
+        .registration,
+        .login {
+            flex: 1;
+            padding: 8px 10px;
+            text-align: center;
+            font-size: 15px;
+        }
     }
 </style>
 
@@ -64,6 +109,8 @@
     <a class="nav-logo" href="index.html"><img src="images/logo.jpg" alt="LeblancCoffe"></a>
     <a class="nav-link" href="menu.html"> Our Blend </a>
     <a class="nav-link" href="about.html"> The Story </a>
-    <a class="registration" href="signin.html"> sign in</a>
-    <a class="login" href="register.html">register</a>
+    <div class="nav-actions">
+        <a class="login" href="register.html">register</a>
+        <a class="registration" href="signin.html">sign in</a>
+    </div>
 </nav>

@@ -24,9 +24,23 @@
         }
 
         /* ── Карусель ── */
+        body {
+            position: relative;
+        }
+
+        h1,
+        .about-text,
+        .carousel,
+        .carousel-dots,
+        .nav-cards,
+        .underground {
+            position: relative;
+            z-index: 1;
+        }
+
         .carousel {
             position: relative;
-            width: 100%;
+            width: min(100% - 32px, 1100px);
             max-width: 1100px;
             margin: 40px auto;
             overflow: hidden;
@@ -43,7 +57,7 @@
         }
         .carousel-slide img {
             width: 100%;
-            height: 480px;
+            height: clamp(320px, 48vw, 480px);
             object-fit: cover;
             display: block;
             filter: sepia(15%) brightness(0.88);
@@ -136,14 +150,40 @@
             object-fit: cover;
         }
 
+        .coffee-decor {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .coffee-decor img {
+            position: absolute;
+            width: clamp(74px, 8vw, 112px);
+            opacity: 0.24;
+            filter: sepia(16%);
+            transform: translate3d(0, 0, 0);
+            transition: transform 650ms cubic-bezier(0.2, 0.8, 0.2, 1);
+            will-change: transform;
+        }
+
+        .decor-1 { left: max(18px, 4vw); top: 330px; }
+        .decor-2 { right: max(18px, 5vw); top: 180px; }
+        .decor-3 { right: max(12px, 3vw); top: 560px; }
+        .decor-4 { left: max(18px, 5vw); top: 850px; }
+        .decor-5 { right: max(18px, 5vw); top: 890px; }
+
         /* ── Карточки навигации ── */
         .nav-cards {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 20px;
             max-width: 1100px;
             margin: 60px auto 80px;
             padding: 0 20px;
+            position: relative;
+            z-index: 1;
         }
 
         .nav-card {
@@ -214,6 +254,43 @@
             color: #555;
             font-size: 14px;
         }
+
+        @media (max-width: 720px) {
+            h1 {
+                font-size: 34px;
+                padding: 0 16px;
+            }
+
+            .about-text {
+                padding: 0 18px;
+            }
+
+            .slide-caption {
+                left: 22px;
+                right: 22px;
+                bottom: 22px;
+                font-size: 12px;
+                line-height: 1.5;
+            }
+
+            .carousel {
+                margin: 28px auto;
+            }
+
+            .nav-cards {
+                grid-template-columns: 1fr;
+                margin-top: 44px;
+            }
+
+            .nav-card {
+                min-height: 150px;
+                padding: 34px 20px;
+            }
+
+            .coffee-decor {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body>
@@ -260,12 +337,12 @@
     <div class="carousel-dots" id="dots"></div>
 
     <!-- Кружки для фона -->
-    <div class="coffe">
-        <img src="images/coffe1.jpg" alt="coffe1" style="position: absolute; left: 45px; top: 300px;">
-        <img src="images/coffe2.jpg" alt="coffe2" style="position: absolute; top: 150px; left: 1375px;">
-        <img src="images/coffe3.jpg" alt="coffe3" style="position: absolute; top: 500px; left: 1385px;">
-        <img src="images/coffe4.jpg" alt="coffe4" style="position: absolute; top: 820px; left: 40px;">
-        <img src="images/coffe5.jpg" alt="coffe5" style="position: absolute; top: 850px; left: 1380px;">
+    <div class="coffee-decor" aria-hidden="true">
+        <img class="decor-1" src="images/coffe1.jpg" alt="" data-depth="10">
+        <img class="decor-2" src="images/coffe2.jpg" alt="" data-depth="-14">
+        <img class="decor-3" src="images/coffe3.jpg" alt="" data-depth="18">
+        <img class="decor-4" src="images/coffe4.jpg" alt="" data-depth="-10">
+        <img class="decor-5" src="images/coffe5.jpg" alt="" data-depth="14">
     </div>
 
     <!-- Карточки навигации -->
@@ -285,7 +362,7 @@
             <span class="nav-card-title">Sign Up</span>
             <span class="nav-card-sub">Become a regular</span>
         </a>
-        <a class="nav-card" href="login.html">
+        <a class="nav-card" href="register.html">
             <span class="nav-card-icon">🗝</span>
             <span class="nav-card-title">Register</span>
             <span class="nav-card-sub">Welcome back</span>
@@ -372,5 +449,6 @@
         startAutoplay();
         restartProgress();
     </script>
+    <script src="site.js"></script>
 </body>
 </html>
